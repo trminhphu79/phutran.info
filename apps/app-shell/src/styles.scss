@@ -1,1 +1,125 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  line-height: 1.5;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: 'Montserrat', sans-serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+input,
+textarea,
+select,
+button {
+  outline: none;
+  font: inherit;
+}
+input {
+  line-height: normal;
+}
+label,
+button {
+  cursor: pointer;
+  user-select: none !important;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  user-select: none !important;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Mobie: width < 740px */
+@media only screen and (max-width: 46.1875em) {
+  input[type='color'],
+  input[type='date'],
+  input[type='datetime'],
+  input[type='datetime-local'],
+  input[type='email'],
+  input[type='month'],
+  input[type='number'],
+  input[type='password'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'],
+  input[type='time'],
+  input[type='url'],
+  input[type='week'],
+  select:focus,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+:root {
+  // Base colors
+  --color-root: #424242;
+  --color-background: #f8f8f8;
+
+  // Theme colors
+  --color-secondary: rgba(66, 66, 66, 0.7);
+  --color-surface: #ffffff;
+
+  --color-primary: #4f46e5;
+  --color-primary-rgb: 79, 70, 229;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-backdrop: rgba(255, 255, 255, 0.5);
+  --color-backdrop-solid: rgba(255, 255, 255, 0.95);
+  --color-border: rgb(188 188 188 / 10%);
+  --color-accent: #4f46e5;
+
+  // Background colors
+
+  // Shadows
+  --shadow-sm: 0 2px 10px rgba(66, 66, 66, 0.1);
+  --shadow-md: 0 5px 15px rgba(66, 66, 66, 0.15);
+
+  // Transitions
+  --transition-default: all 0.2s ease;
+}
+
+.dark-theme {
+  --color-root: #f8f8f8;
+  --color-background: #424242;
+
+  --color-primary: var(--color-root);
+  --color-secondary: rgba(248, 248, 248, 0.7);
+  --color-surface: #2a2a2a;
+  --color-text: var(--color-root);
+  --color-text-secondary: rgba(248, 248, 248, 0.7);
+  --color-border: rgba(248, 248, 248, 0.1);
+  --color-accent: #6366f1;
+
+  --color-backdrop: rgba(42, 42, 42, 0.8);
+  --color-backdrop-solid: rgba(42, 42, 42, 0.95);
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.4);
+}

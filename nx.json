@@ -16,8 +16,17 @@
   },
   "nxCloudId": "6796346bd4f9b972b4b4d2a2",
   "targetDefaults": {
+    "build": {
+      "cache": false
+    },
+    "serve": {
+      "cache": false
+    },
+    "serve-static": {
+      "cache": false
+    },
     "@angular-devkit/build-angular:application": {
-      "cache": true,
+      "cache": false,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
@@ -42,6 +51,22 @@
           "codeCoverage": true
         }
       }
+    },
+    "@angular-devkit/build-angular:browser": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@nx/angular:webpack-browser": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": [
+        "production",
+        "^production",
+        {
+          "env": "NX_MF_DEV_REMOTES"
+        }
+      ]
     }
   },
   "generators": {
@@ -50,6 +75,13 @@
       "linter": "eslint",
       "style": "scss",
       "unitTestRunner": "jest"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   }
 }

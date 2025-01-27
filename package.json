@@ -2,7 +2,13 @@
   "name": "@phutran.info/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx serve app-shell --skip-nx-cache",
+    "build": "nx build app-shell",
+    "build:none-cache": "nx build app-shell --skip-nx-cache && nx build home --skip-nx-cache && nx build blog --skip-nx-cache",
+    "copy:nginx": "rm -rf ~/nginx-config/dist/apps && cp -r dist/apps ~/nginx-config/dist/apps",
+    "start:nginx": "npm run build:none-cache && npm run copy:nginx && nginx -s stop && nginx -c ~/nginx-config/nginx.conf"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~19.0.0",
@@ -14,7 +20,8 @@
     "@angular/platform-browser-dynamic": "~19.0.0",
     "@angular/router": "~19.0.0",
     "rxjs": "~7.8.0",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.15.0",
+    "@nx/angular": "20.3.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~19.0.0",
@@ -24,12 +31,14 @@
     "@angular/compiler-cli": "~19.0.0",
     "@angular/language-service": "~19.0.0",
     "@eslint/js": "^9.8.0",
-    "@nx/angular": "20.3.3",
+    "@module-federation/enhanced": "^0.8.8",
     "@nx/eslint": "20.3.3",
     "@nx/eslint-plugin": "20.3.3",
     "@nx/jest": "20.3.3",
     "@nx/js": "20.3.3",
+    "@nx/module-federation": "20.3.3",
     "@nx/web": "20.3.3",
+    "@nx/webpack": "20.3.3",
     "@nx/workspace": "20.3.3",
     "@schematics/angular": "~19.0.0",
     "@swc-node/register": "~1.9.1",

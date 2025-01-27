@@ -7,12 +7,12 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/app-shell",
         "index": "apps/app-shell/src/index.html",
-        "browser": "apps/app-shell/src/main.ts",
+        "main": "apps/app-shell/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/app-shell/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -23,7 +23,10 @@
           }
         ],
         "styles": ["apps/app-shell/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/app-shell/webpack.config.ts"
+        }
       },
       "configurations": {
         "production": {
@@ -39,21 +42,32 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/app-shell/webpack.prod.config.ts"
+          }
         },
         "development": {
+          "buildOptimizer": false,
           "optimization": false,
+          "vendorChunk": true,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "namedChunks": true
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      },
       "configurations": {
         "production": {
-          "buildTarget": "app-shell:build:production"
+          "buildTarget": "app-shell:build:production",
+          "skipNxCache": true
         },
         "development": {
           "buildTarget": "app-shell:build:development"
@@ -81,7 +95,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "app-shell:build",
-        "staticFilePath": "dist/apps/app-shell/browser",
+        "port": 4200,
         "spa": true
       }
     }
