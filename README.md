@@ -1,82 +1,149 @@
-# PhutranInfo
+# Phutran Info - Angular Micro Frontend Architecture
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A modern micro frontend architecture built with Angular, Nx workspace, and Module Federation.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Architecture Overview
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This workspace demonstrates a micro frontend architecture with the following structure:
 
-## Finish your CI setup
+### Applications
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/XNHpj0bfuK)
+- **app-shell** - Host application that serves as the container
+- **remote-apps** - Independent micro frontends that can be loaded dynamically
+  - Dashboard
+  - User Management
+  - Analytics
+  - Settings
 
+### Shared Libraries
 
-## Run tasks
+- **@phutran/directives** - Reusable Angular directives
+  - Typing Animation
+  - Scroll Detection
+  - Lazy Loading
+- **@phutran/ui** - UI component library
+- **@phutran/utils** - Shared utilities and helpers
+- **@phutran/models** - Shared interfaces and types
+- **@phutran/services** - Common services
 
-To run the dev server for your app, use:
+## Technical Stack
 
+- **Framework**: Angular 17+
+- **Build System**: Nx Workspace
+- **Module Federation**: Webpack 5 
+- **State Management**: NgRx
+- **Styling**: TailwindCSS
+- **Testing**: Jest + Cypress
+
+## Getting Started
+
+1. Install dependencies:
+```sh
+npm install
+```
+
+2. Start the development server:
 ```sh
 npx nx serve app-shell
 ```
 
-To create a production bundle:
+3. Start remote apps (in separate terminals):
+```sh
+npx nx serve dashboard
+npx nx serve user-management
+npx nx serve analytics
+npx nx serve settings
+```
+
+## Development Workflow
+
+### Generate New Components/Features
 
 ```sh
+# Generate a new micro frontend app
+npx nx g @nx/angular:app new-feature
+
+# Generate a new shared library
+npx nx g @nx/angular:lib my-shared-lib
+
+# Generate components/services in existing projects
+npx nx g @nx/angular:component my-component --project=app-shell
+```
+
+### Build for Production
+
+```sh
+# Build all apps and libraries
+npx nx run-many --target=build --all
+
+# Build specific app
 npx nx build app-shell
 ```
 
-To see all available targets to run for a project, run:
+## Module Federation Setup
+
+Each micro frontend is configured as a remote module that can be loaded dynamically by the shell application. The federation configuration can be found in the `webpack.config.js` of each application.
+
+### Shell Configuration
+- Manages routing and authentication
+- Loads remote modules dynamically
+- Provides shared dependencies
+
+### Remote Apps Configuration
+- Exposes specific modules/components
+- Maintains independent deployment
+- Shares common dependencies
+
+## CI/CD Pipeline
+
+The project uses Nx Cloud for:
+- Distributed task execution
+- Caching
+- Affected commands
+- Deploy previews
+
+## Performance Optimization
+
+- Lazy loading of routes and modules
+- Shared dependencies management
+- Caching strategies
+- Bundle size optimization
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests: `npx nx affected:test`
+4. Submit a pull request
+
+## Useful Commands
 
 ```sh
-npx nx show project app-shell
+# View dependency graph
+npx nx graph
+
+# Run tests
+npx nx affected:test
+
+# Run e2e tests
+npx nx affected:e2e
+
+# Format code
+npx nx format:write
+
+# Check affected apps/libs
+npx nx affected:apps
+npx nx affected:libs
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Learn More
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Nx Documentation](https://nx.dev)
+- [Angular Module Federation](https://www.angular.io/guide/webpack#module-federation)
+- [Micro Frontend Architecture](https://micro-frontends.org)
 
-## Add new projects
+## Support
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
-```
-
-To generate a new library, use:
-
-```sh
-npx nx g @nx/angular:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Join our community:
+- [Discord](https://discord.gg/yourserver)
+- [GitHub Discussions](https://github.com/yourusername/phutraninfo/discussions)
