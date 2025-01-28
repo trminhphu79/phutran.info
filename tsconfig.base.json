@@ -15,11 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@tmp/services/auth": ["packages/services/src/lib/auth.service.ts"],
-      "@tmp/services/blog": ["packages/services/src/lib/blog.service.ts"],
-      "@tmp/services/base-api": ["packages/services/src/lib/base-api.ts"],
-      "@tmp/directives": ["packages/directives/src/index.ts"],
-      "@tmp/guards": ["packages/guards/src/index.ts"],
+      "@tmp/services/auth": ["libs/services/src/lib/auth.service.ts"],
+      "@tmp/services/blog": ["libs/services/src/lib/blog.service.ts"],
+      "@tmp/services/base-api": ["libs/services/src/lib/base-api.ts"],
+      "@tmp/directives": ["libs/directives/src/index.ts"],
+      "@tmp/guards": ["libs/guards/src/index.ts"],
       "admin/Routes": ["apps/admin/src/app/remote-entry/entry.routes.ts"],
       "blog/Routes": ["apps/blog/src/app/remote-entry/entry.routes.ts"],
       "home/Routes": ["apps/home/src/app/remote-entry/entry.routes.ts"]

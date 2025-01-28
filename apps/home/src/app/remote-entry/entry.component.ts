@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { TypingAnimationDirective } from '@tmp/directives';
 
 @Component({
