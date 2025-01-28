@@ -1,0 +1,326 @@
+.timeline {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  .timeline-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    color: var(--color-text);
+    text-align: center;
+  }
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 4px;
+    height: 3rem;
+    background: var(--color-primary);
+  }
+}
+
+.experience-item {
+  position: relative;
+  padding: 0 0 3rem 2rem;
+  transition: all 0.3s ease;
+  
+  // Special styling for current position (first item)
+  &:first-child {
+    .timeline-dot {
+      background: var(--color-primary);
+      animation: pulse 2s infinite;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border-radius: 50%;
+        border: 2px solid var(--color-primary);
+        animation: ripple 2s infinite;
+      }
+    }
+    
+    .date-range {
+      color: var(--color-primary);
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+      
+      &::after {
+        content: '•';
+        display: inline-block;
+        margin-left: 0.5rem;
+        animation: blink 1.5s infinite;
+      }
+    }
+    
+    .position-title {
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+    
+    .company-name {
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        width: 3px;
+        height: 70%;
+        background: var(--color-primary);
+        transform: translateY(-50%);
+      }
+    }
+  }
+  
+  &:last-child {
+    padding-bottom: 0;
+  }
+  
+  &:hover {
+    .timeline-dot {
+      transform: scale(1.2);
+      background: var(--color-primary);
+      box-shadow: 0 0 10px var(--color-primary);
+    }
+    
+    .position-title {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -0.5rem;
+  top: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--color-primary);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.date-range {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.position-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  transition: color 0.3s ease;
+}
+
+.company-details {
+  margin-bottom: 1rem;
+  
+  .company-name {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .location {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    
+    .location-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+.description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  padding: 0.35rem 0.75rem;
+  background: var(--color-surface-variant);
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--color-primary);
+    color: var(--color-surface);
+    transform: translateY(-2px);
+  }
+}
+
+// Entrance animations
+.experience-item {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Pulse animation for current position dot
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--color-primary-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0);
+  }
+}
+
+// Ripple effect for current position dot
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+// Blinking dot animation for current position
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+// Enhanced hover effect for current position
+.experience-item:first-child:hover {
+  transform: translateX(10px);
+  
+  .timeline-dot {
+    transform: scale(1.3);
+    box-shadow: 0 0 20px var(--color-primary);
+  }
+  
+  .skills-container .skill-tag {
+    animation: floatTag 0.6s ease forwards;
+    animation-delay: calc(var(--tag-index) * 0.1s);
+  }
+}
+
+// Floating animation for skill tags
+@keyframes floatTag {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// Update skill tags for current position
+.experience-item:first-child .skills-container {
+  .skill-tag {
+    background: linear-gradient(
+      135deg,
+      var(--color-surface-variant) 0%,
+      var(--color-primary-light) 100%
+    );
+    border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+    
+    &:hover {
+      background: var(--color-primary);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(var(--color-primary-rgb), 0.2);
+    }
+  }
+}
+
+// Add this to your existing media queries
+@media (prefers-reduced-motion: reduce) {
+  .experience-item:first-child {
+    .timeline-dot,
+    .date-range::after {
+      animation: none;
+    }
+  }
+}
+
+// Add responsive design
+@media (max-width: 768px) {
+  .timeline {
+    padding: 1rem;
+  }
+  
+  .timeline-container {
+    padding-left: 1.5rem;
+  }
+  
+  .experience-item {
+    padding-left: 1.5rem;
+  }
+  
+  .skills-container {
+    gap: 0.35rem;
+  }
+  
+  .skill-tag {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}

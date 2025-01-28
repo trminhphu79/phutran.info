@@ -66,7 +66,7 @@ const config: ModuleFederationConfig = {
     ['blog', 'http://localhost:8082/remoteEntry.mjs'],
     ['admin', 'http://localhost:8083/remoteEntry.mjs'],
   ],
-  shared: getShared(),
+  // shared: getShared(),
 };
 
 export default config;

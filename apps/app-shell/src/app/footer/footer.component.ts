@@ -41,8 +41,8 @@ import { Component } from '@angular/core';
   styles: [
     `
       footer {
-        background: #000;
-        color: #fff;
+        background: var(--color-accent);
+        color: var(--color-surface);
         padding: 2rem 0;
         margin-top: 4rem;
       }
