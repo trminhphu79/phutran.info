@@ -5,9 +5,10 @@
   "scripts": {
     "start": "nx serve app-shell --skip-nx-cache",
     "build": "nx build app-shell",
-    "build:none-cache": "nx build app-shell --skip-nx-cache && nx build home --skip-nx-cache && nx build blog --skip-nx-cache",
+    "build:none-cache": "nx build app-shell --skip-nx-cache && nx build home --skip-nx-cache && nx build blog --skip-nx-cache && nx build admin --skip-nx-cache",
     "copy:nginx": "rm -rf ~/nginx-config/dist/apps && cp -r dist/apps ~/nginx-config/dist/apps",
-    "start:nginx": "npm run build:none-cache && npm run copy:nginx && nginx -s stop && nginx -c ~/nginx-config/nginx.conf"
+    "start:nginx": "npm run build:none-cache && npm run copy:nginx && nginx -s stop && nginx -c ~/nginx-config/nginx.conf",
+    "lint": "nx lint"
   },
   "private": true,
   "dependencies": {

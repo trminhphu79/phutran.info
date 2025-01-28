@@ -1,4 +1,4 @@
-# Phutran Info - Angular Micro Frontend Architecture
+# Phutran Info - Personal Website - Angular Micro Frontend Architecture
 
 A modern micro frontend architecture built with Angular, Nx workspace, and Module Federation.
 
@@ -10,50 +10,57 @@ This workspace demonstrates a micro frontend architecture with the following str
 
 - **app-shell** - Host application that serves as the container
 - **remote-apps** - Independent micro frontends that can be loaded dynamically
-  - Dashboard
-  - User Management
-  - Analytics
-  - Settings
+  - Home
+  - Blog
+  - Admin
 
 ### Shared Libraries
 
-- **@phutran/directives** - Reusable Angular directives
+- **@tmp/directives** - Reusable Angular directives
   - Typing Animation
   - Scroll Detection
   - Lazy Loading
-- **@phutran/ui** - UI component library
-- **@phutran/utils** - Shared utilities and helpers
-- **@phutran/models** - Shared interfaces and types
-- **@phutran/services** - Common services
+- **@tmp/ui** - UI component library
+- **@tmp/utils** - Shared utilities and helpers
+- **@tmp/models** - Shared interfaces and types
+- **@tmp/services** - Common services
 
 ## Technical Stack
 
-- **Framework**: Angular 17+
+- **Framework**: Angular 19+
 - **Build System**: Nx Workspace
-- **Module Federation**: Webpack 5 
-- **State Management**: NgRx
-- **Styling**: TailwindCSS
-- **Testing**: Jest + Cypress
+- **Module Federation**: Webpack 5
+- **State Management**: Signal
+- **Testing**: Jest
 
 ## Getting Started
 
 1. Install dependencies:
+
 ```sh
 npm install
 ```
 
 2. Start the development server:
+
 ```sh
-npx nx serve app-shell
+npm start
 ```
 
 3. Start remote apps (in separate terminals):
+
 ```sh
-npx nx serve dashboard
-npx nx serve user-management
-npx nx serve analytics
-npx nx serve settings
+npx nx serve home
+npx nx serve blog
+npx nx serve admin
 ```
+
+4. Start nginx server:
+
+```sh
+npm run start:nginx
+```
+
 
 ## Development Workflow
 
@@ -85,11 +92,13 @@ npx nx build app-shell
 Each micro frontend is configured as a remote module that can be loaded dynamically by the shell application. The federation configuration can be found in the `webpack.config.js` of each application.
 
 ### Shell Configuration
+
 - Manages routing and authentication
 - Loads remote modules dynamically
 - Provides shared dependencies
 
 ### Remote Apps Configuration
+
 - Exposes specific modules/components
 - Maintains independent deployment
 - Shares common dependencies
@@ -97,6 +106,7 @@ Each micro frontend is configured as a remote module that can be loaded dynamica
 ## CI/CD Pipeline
 
 The project uses Nx Cloud for:
+
 - Distributed task execution
 - Caching
 - Affected commands
@@ -145,5 +155,6 @@ npx nx affected:libs
 ## Support
 
 Join our community:
+
 - [Discord](https://discord.gg/yourserver)
 - [GitHub Discussions](https://github.com/yourusername/phutraninfo/discussions)
