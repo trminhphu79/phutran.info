@@ -1,25 +1,20 @@
 .skills {
-  margin-top: 40px;
-  padding: 2rem 4rem;
+  margin: 40px auto 0;
+  padding: 1rem 2rem;
+  max-width: 1440px;
 
   h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--color-text);
+    font-size: 2.5rem;
+    font-weight: 700;
     margin: 2rem 0;
     text-align: center;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      width: 60px;
-      height: 3px;
-      background: var(--color-primary);
-      transform: translateX(-50%);
-    }
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-text) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
@@ -28,64 +23,62 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 6rem;
-  padding: 1rem;
 }
 
 .skill-category {
   background: rgba(var(--color-background-soft-rgb), 0.7);
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transform-origin: center;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--color-border-rgb), 0.08);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease forwards;
 
-  // Running border animation - now only on hover
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    animation: none; // Remove default animation
-  }
-
-  // Ripple effect on hover
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 0.6s linear;
-    background-color: rgba(var(--color-primary-rgb), 0.2);
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
   }
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 40px rgba(var(--color-primary-rgb), 0.15);
+    border-color: rgba(var(--color-primary-rgb), 0.2);
 
     h3 {
       color: var(--color-primary);
+      
+      &::after {
+        width: 60px;
+        background: var(--color-primary);
+      }
     }
 
-    li:before {
+    li::before {
       transform: translateX(5px);
       color: var(--color-primary);
     }
   }
 
   h3 {
-    color: var(--color-heading);
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    position: relative;
+    margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
+    position: relative;
+    transition: color 0.3s ease;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-text) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 
     &::after {
       content: '';
@@ -94,13 +87,9 @@
       left: 0;
       width: 40px;
       height: 2px;
-      background: var(--color-primary);
-      transition: width 0.3s ease;
+      background: var(--color-border);
+      transition: all 0.3s ease;
     }
-  }
-
-  &:hover h3::after {
-    width: 60px;
   }
 
   ul {
@@ -109,34 +98,33 @@
     margin: 0;
 
     li {
-      margin-bottom: 0.8rem;
-      color: var(--color-text);
+      margin-bottom: 1rem;
+      color: var(--color-text-secondary);
       position: relative;
       padding-left: 1.5rem;
-      transition: transform 0.3s ease;
-      
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      line-height: 1.6;
+
       &::before {
-        content: '→';
+        content: '▹';
         position: absolute;
         left: 0;
         color: var(--color-primary);
-        font-size: 1rem;
-        transform: translateY(-1px);
-        opacity: 0.8;
         transition: all 0.3s ease;
       }
-      
+
       &:hover {
         transform: translateX(5px);
-        
+        color: var(--color-text);
+
         &::before {
-          transform: translateX(3px) translateY(-1px);
+          transform: translateX(3px);
           opacity: 1;
           color: var(--color-primary);
-          animation: arrowBounce 0.6s ease infinite alternate;
         }
       }
-      
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -144,57 +132,58 @@
   }
 }
 
-.skill-category li:before {
-  content: '→';
-  position: absolute;
-  left: 0;
-  color: var(--color-accent);
-  transition: all 0.3s ease;
-}
-
-// Ripple animation
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-// Entrance animation for skills
-.skill-category {
-  opacity: 0;
-  animation: slideUp 0.5s ease forwards;
-
-  @for $i from 1 through 3 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.2}s;
-    }
-  }
-}
-
-@keyframes slideUp {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    filter: blur(10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-// Add media query for better responsiveness
+// Respect reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .skill-category {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Mobile responsiveness
 @media (max-width: 768px) {
+  .skills {
+    padding: 0.5rem 1rem;
+    margin-top: 14px;
+
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
   .skills-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    margin-bottom: 3rem;
   }
 
   .skill-category {
-    padding: 1.2rem;
+    padding: 1.5rem;
+    animation-delay: 0.1s !important;
+  }
+}
+
+// Dark mode enhancements
+@media (prefers-color-scheme: dark) {
+  .skill-category {
+    background: rgba(var(--color-background-soft-rgb), 0.4);
+    border-color: rgba(var(--color-border-rgb), 0.1);
 
     &:hover {
-      transform: none; // Disable hover effect on mobile
+      background: rgba(var(--color-background-soft-rgb), 0.5);
     }
   }
 }
@@ -257,38 +246,6 @@
   }
 }
 
-// Media query for dark mode enhancements
-@media (prefers-color-scheme: dark) {
-  .skill-category {
-    background: rgba(var(--color-background-soft-rgb), 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-
-    &:hover {
-      background: rgba(var(--color-background-soft-rgb), 0.5);
-    }
-  }
-}
-
-// Accessibility
-@media (prefers-reduced-motion: reduce) {
-  .fade-in-section,
-  .fade-in-element,
-  .skill-category {
-    transition: none;
-    animation: none;
-    transform: none;
-    filter: none;
-    backdrop-filter: none;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .skills {
-    padding: 2rem 1rem;
-  }
-}
-
 // Arrow bounce animation
 @keyframes arrowBounce {
   from {
@@ -298,3 +255,4 @@
     transform: translateX(6px) translateY(-1px);
   }
 }
+

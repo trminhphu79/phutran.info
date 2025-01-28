@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 
 interface Experience {
   startDate: string;
@@ -7,18 +7,46 @@ interface Experience {
   title: string;
   company: string;
   location: string;
-  description?: string;
+  description: string[];  // Changed to array for multiple lines
   skills: string[];
 }
 
 @Component({
   selector: 'tmp-journey',
-  templateUrl: './journey.component.html',
+  template: `
+    <section class="timeline">
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div 
+          *ngFor="let exp of experiences; let first = first" 
+          class="experience-item"
+          [class.current-position]="first"
+        >
+          <div class="date-range">{{ exp.startDate }} - {{ exp.endDate }}</div>
+          <h3 class="position-title">{{ exp.title }}</h3>
+          <div class="company-name">{{ exp.company }}</div>
+          <div class="location">{{ exp.location }}</div>
+          <div class="description">
+            <p *ngFor="let desc of exp.description">{{ desc }}</p>
+          </div>
+          <div class="skills-container">
+            <span *ngFor="let skill of exp.skills" class="skill-tag">{{ skill }}</span>
+          </div>
+          
+          <!-- Corner borders for current position -->
+          <div *ngIf="first" class="corner-borders">
+            <div class="corner top-left"></div>
+            <div class="corner bottom-left"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `,
   styleUrls: ['./journey.component.scss'],
   standalone: true,
-  imports: [CommonModule],  
+  imports: [CommonModule],
 })
-export class JourneyComponent {
+export class JourneyComponent implements AfterViewInit {
   experiences: Experience[] = [
     {
       startDate: 'Dec 2024',
@@ -26,18 +54,12 @@ export class JourneyComponent {
       title: 'Senior Frontend Developer',
       company: 'CMC Global Company Limited',
       location: 'Ho Chi Minh City, Vietnam · On-site',
-      skills: [
-        'TypeScript',
-        'Angular',
-        'NestJS',
-        'Node.js',
-        'Express.js',
-        'RxJS',
-        'Docker',
-        'PostgreSQL',
-        'PrimeNG',
-        'Nx',
+      description: [
+        'Led the development of large-scale enterprise applications using Angular and TypeScript, implementing complex business logic and optimizing performance.',
+        'Architected and maintained scalable frontend solutions, focusing on code quality, reusability, and best practices.',
+        'Mentored junior developers and conducted code reviews to ensure high-quality deliverables and knowledge sharing.'
       ],
+      skills: ['TypeScript', 'Angular', 'NestJS', 'Node.js', 'Express.js', 'RxJS', 'Docker', 'PostgreSQL', 'PrimeNG', 'Nx'],
     },
     {
       startDate: 'Jun 2023',
@@ -45,15 +67,12 @@ export class JourneyComponent {
       title: 'Software Engineer',
       company: 'VNG Corporation',
       location: 'Ho Chi Minh City, Vietnam · On-site',
-      skills: [
-        'Angular',
-        'React.js',
-        'RxJS',
-        'Functional Programming',
-        'SOLID Design Principles',
-        'JavaScript',
-        'OOP',
+      description: [
+        'Developed and maintained multiple web applications using Angular and React, ensuring responsive design and cross-browser compatibility.',
+        'Implemented state management solutions using RxJS and Redux, improving application performance and user experience.',
+        'Collaborated with backend teams to design and integrate RESTful APIs, following SOLID principles and clean architecture.'
       ],
+      skills: ['Angular', 'React.js', 'RxJS', 'Functional Programming', 'SOLID Design Principles', 'JavaScript', 'OOP'],
     },
     {
       startDate: 'Jun 2022',
@@ -61,18 +80,12 @@ export class JourneyComponent {
       title: 'Frontend Engineer',
       company: 'EcoTruck - Ecosystem for Trucking',
       location: 'Ho Chi Minh City, Vietnam · On-site',
-      description:
-        'EcoTruck offers an effective solution for enterprise logistics operations. With breakthrough technology solutions and professional staff, EcoTruck elevates the service quality of the transportation industry.',
-      skills: [
-        'HTML',
-        'Angular',
-        'TypeScript',
-        'RxJS',
-        'CSS',
-        'JavaScript',
-        'GitFlow',
-        'REST APIs',
+      description: [
+        'Built and optimized the logistics management platform using Angular, improving operational efficiency for enterprise clients.',
+        'Implemented real-time tracking features and interactive maps using WebSocket and Google Maps API.',
+        'Developed reusable UI components and established coding standards for the frontend team.'
       ],
+      skills: ['HTML', 'Angular', 'TypeScript', 'RxJS', 'CSS', 'JavaScript', 'GitFlow', 'REST APIs'],
     },
     {
       startDate: 'Jan 2021',
@@ -80,16 +93,44 @@ export class JourneyComponent {
       title: 'Frontend Developer',
       company: 'Appvity',
       location: 'Vietnam',
-      skills: [
-        'HTML',
-        'Angular',
-        'TypeScript',
-        'RxJS',
-        'Angular Material',
-        'JavaScript',
-        'GitFlow',
-        'REST APIs',
+      description: [
+        'Developed responsive web applications using Angular and TypeScript, focusing on user experience and performance.',
+        'Created custom Angular Material components and implemented complex form validations.',
+        'Participated in agile development processes and contributed to sprint planning and retrospectives.'
       ],
+      skills: ['HTML', 'Angular', 'TypeScript', 'RxJS', 'Angular Material', 'JavaScript', 'GitFlow', 'REST APIs'],
     },
   ];
+
+  ngAfterViewInit() {
+    // Initialize animation observer
+    const animationObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            // Once animated, no need to observe anymore
+            animationObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -10% 0px'
+      }
+    );
+
+    // Observe timeline items
+    document.querySelectorAll('.experience-item').forEach((item, index) => {
+      // Add custom delay attribute for staggered animation
+      item.setAttribute('style', `--delay: ${index * 0.2}s`);
+      animationObserver.observe(item);
+    });
+
+    // Observe timeline line
+    const timelineLine = document.querySelector('.timeline-line');
+    if (timelineLine) {
+      animationObserver.observe(timelineLine);
+    }
+  }
 }

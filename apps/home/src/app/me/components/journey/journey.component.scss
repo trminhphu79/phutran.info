@@ -1,70 +1,110 @@
 .timeline {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 2rem;
-  
   .timeline-title {
     font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 3rem;
+    font-weight: 700;
     color: var(--color-text);
+    margin-bottom: 2rem;
     text-align: center;
   }
 }
 
 .timeline-container {
   position: relative;
-  padding-left: 2rem;
+  padding-left: 3.5rem;
 }
 
 .timeline-line {
   position: absolute;
-  left: 0;
+  left: 16px;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background: var(--color-border);
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(var(--color-primary-rgb), 0.2) 10%,
+    rgba(var(--color-primary-rgb), 0.2) 90%,
+    transparent
+  );
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.6s ease;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -1px;
-    width: 4px;
-    height: 3rem;
-    background: var(--color-primary);
+  &.animate {
+    transform: scaleY(1);
   }
 }
 
 .experience-item {
   position: relative;
-  padding: 0 0 3rem 2rem;
-  transition: all 0.3s ease;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+  background: rgba(var(--color-background-soft-rgb), 0.7);
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(var(--color-border-rgb), 0.08);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  // Modern timeline dot
+  &::before {
+    content: '';
+    position: absolute;
+    left: -3rem;
+    top: 1.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  // Connecting line with gradient
+  &::after {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 2.35rem;
+    width: 1.75rem;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--color-border),
+      rgba(var(--color-border-rgb), 0.3)
+    );
+    transition: all 0.3s ease;
+  }
   
-  // Special styling for current position (first item)
-  &:first-child {
-    .timeline-dot {
+  &.current-position {
+    background: rgba(var(--color-primary-rgb), 0.03);
+    border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+    
+    &::before {
       background: var(--color-primary);
-      animation: pulse 2s infinite;
-      
-      &::after {
-        content: '';
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
-        border-radius: 50%;
-        border: 2px solid var(--color-primary);
-        animation: ripple 2s infinite;
-      }
+      border-color: rgba(var(--color-primary-rgb), 0.3);
+      box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.1),
+                  0 0 15px rgba(var(--color-primary-rgb), 0.5);
+    }
+
+    &::after {
+      background: linear-gradient(
+        90deg,
+        var(--color-primary),
+        rgba(var(--color-primary-rgb), 0.3)
+      );
     }
     
     .date-range {
       color: var(--color-primary);
       font-weight: 600;
-      position: relative;
-      display: inline-block;
       
       &::after {
         content: '•';
@@ -73,9 +113,13 @@
         animation: blink 1.5s infinite;
       }
     }
-    
+
     .position-title {
-      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-text) 100%);
+      background: linear-gradient(
+        90deg,
+        var(--color-primary) 0%,
+        var(--color-text) 100%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 700;
@@ -97,65 +141,131 @@
     }
   }
   
-  &:last-child {
-    padding-bottom: 0;
-  }
-  
   &:hover {
-    .timeline-dot {
+    transform: translateX(-5px);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+    
+    &::before {
       transform: scale(1.2);
-      background: var(--color-primary);
-      box-shadow: 0 0 10px var(--color-primary);
+      border-color: var(--color-primary);
     }
     
+    &::after {
+      width: 2.5rem;
+      background: linear-gradient(
+        90deg,
+        var(--color-primary),
+        rgba(var(--color-primary-rgb), 0.3)
+      );
+    }
+    
+    &.current-position {
+      box-shadow: 0 4px 30px rgba(var(--color-primary-rgb), 0.15);
+    }
+
     .position-title {
       color: var(--color-primary);
     }
   }
-}
+  
+  &.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-.timeline-dot {
-  position: absolute;
-  left: -0.5rem;
-  top: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  background: var(--color-primary);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
+  .date-range {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+  }
 
-.date-range {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
-}
+  .position-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
 
-.position-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--color-text);
-  transition: color 0.3s ease;
+  .company-name {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+    
+    &::before {
+      content: '📍';
+    }
+  }
+
+  .description {
+    margin: 1.5rem 0;
+    
+    p {
+      color: var(--color-text-light);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.5rem;
+      
+      &::before {
+        content: '▹';
+        position: absolute;
+        left: 0;
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    
+    .skill-tag {
+      background: rgba(var(--color-primary-rgb), 0.08);
+      color: var(--color-primary);
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+      
+      &:hover {
+        background: var(--color-primary);
+        color: var(--color-surface);
+        transform: translateY(-2px);
+      }
+    }
+  }
 }
 
 .company-details {
   margin-bottom: 1rem;
-  
+
   .company-name {
     font-size: 1rem;
     color: var(--color-text-secondary);
     margin-bottom: 0.25rem;
   }
-  
+
   .location {
     font-size: 0.9rem;
     color: var(--color-text-secondary);
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    
+
     .location-icon {
       font-size: 1rem;
     }
@@ -182,7 +292,16 @@
   font-size: 0.85rem;
   color: var(--color-text);
   transition: all 0.2s ease;
-  
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.3s ease forwards;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05 + 1}s;
+    }
+  }
+
   &:hover {
     background: var(--color-primary);
     color: var(--color-surface);
@@ -190,31 +309,21 @@
   }
 }
 
-// Entrance animations
-.experience-item {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s ease forwards;
-  
-  @for $i from 1 through 10 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.1}s;
-    }
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
   }
-}
-
-@keyframes fadeInUp {
-  from {
+  100% {
+    transform: scale(1.5);
     opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
-// Pulse animation for current position dot
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.4);
@@ -227,100 +336,36 @@
   }
 }
 
-// Ripple effect for current position dot
-@keyframes ripple {
-  0% {
-    transform: scale(1);
+// Respect reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .timeline-line,
+  .experience-item {
+    transition: none;
+    animation: none;
+    transform: none;
     opacity: 1;
   }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
 }
 
-// Blinking dot animation for current position
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-// Enhanced hover effect for current position
-.experience-item:first-child:hover {
-  transform: translateX(10px);
-  
-  .timeline-dot {
-    transform: scale(1.3);
-    box-shadow: 0 0 20px var(--color-primary);
-  }
-  
-  .skills-container .skill-tag {
-    animation: floatTag 0.6s ease forwards;
-    animation-delay: calc(var(--tag-index) * 0.1s);
-  }
-}
-
-// Floating animation for skill tags
-@keyframes floatTag {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-// Update skill tags for current position
-.experience-item:first-child .skills-container {
-  .skill-tag {
-    background: linear-gradient(
-      135deg,
-      var(--color-surface-variant) 0%,
-      var(--color-primary-light) 100%
-    );
-    border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-    
-    &:hover {
-      background: var(--color-primary);
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 5px 15px rgba(var(--color-primary-rgb), 0.2);
-    }
-  }
-}
-
-// Add this to your existing media queries
-@media (prefers-reduced-motion: reduce) {
-  .experience-item:first-child {
-    .timeline-dot,
-    .date-range::after {
-      animation: none;
-    }
-  }
-}
-
-// Add responsive design
+// Mobile responsiveness
 @media (max-width: 768px) {
   .timeline {
     padding: 1rem;
   }
-  
+
   .timeline-container {
-    padding-left: 1.5rem;
+    padding-left: 2.5rem;
   }
-  
+
   .experience-item {
-    padding-left: 1.5rem;
-  }
-  
-  .skills-container {
-    gap: 0.35rem;
-  }
-  
-  .skill-tag {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8rem;
+    padding: 1.5rem;
+    
+    &::before {
+      left: -2.25rem;
+    }
+    
+    &::after {
+      left: -1.25rem;
+    }
   }
 }

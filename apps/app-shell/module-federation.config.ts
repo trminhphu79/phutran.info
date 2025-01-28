@@ -59,12 +59,15 @@ const getShared = (): SharedFunction => {
   };
 };
 
+// webpack.config.js
+const DOMAIN = process.env.DOMAIN || 'http://phutran.info.vn';
+
 const config: ModuleFederationConfig = {
   name: 'app-shell',
   remotes: [
-    ['home', 'http://localhost:8081/remoteEntry.mjs'],
-    ['blog', 'http://localhost:8082/remoteEntry.mjs'],
-    ['admin', 'http://localhost:8083/remoteEntry.mjs'],
+    ['home', `${DOMAIN}/home/remoteEntry.mjs`],
+    ['blog', `${DOMAIN}/blog/remoteEntry.mjs`],
+    ['admin', `${DOMAIN}/admin/remoteEntry.mjs`],
   ],
   // shared: getShared(),
 };

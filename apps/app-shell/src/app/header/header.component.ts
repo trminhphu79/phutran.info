@@ -1,40 +1,27 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, RouterLink],
+  imports: [RouterModule, RouterLink, RouterLinkActive],
   template: `
     <header class="site-header" [class.scrolled]="isScrolled">
       <div class="header-backdrop"></div>
       <nav>
-        <div class="logo-text">&lt;TMP /&gt;</div>
+        <div class="logo-text" routerLink="/">&lt;TMP /&gt;</div>
         <ul class="nav-links">
-          <li><a routerLink="/">About me</a></li>
-          <li><a routerLink="/blog">Blog</a></li>
+          <li>
+            <a routerLink="/" 
+               routerLinkActive="active" 
+               [routerLinkActiveOptions]="{exact: true}">Me</a>
+          </li>
+          <li>
+            <a routerLink="/blog" 
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">Blog</a>
+          </li>
         </ul>
-        <!-- <button
-          class="theme-toggle"
-          (click)="toggleTheme()"
-          aria-label="Toggle theme"
-        >
-          @if (isDarkTheme) {
-          <svg viewBox="0 0 24 24" class="icon">
-            <path
-              fill="currentColor"
-              d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"
-            />
-          </svg>
-          } @if (!isDarkTheme) {
-          <svg viewBox="0 0 24 24" class="icon">
-            <path
-              fill="currentColor"
-              d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
-            />
-          </svg>
-          }
-        </button> -->
       </nav>
     </header>
   `,
@@ -56,22 +43,23 @@ import { RouterLink, RouterModule } from '@angular/router';
         left: 0;
         right: 0;
         bottom: 0;
-        background: var(--color-backdrop);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         transition: all 0.3s ease;
       }
 
       .site-header.scrolled .header-backdrop {
-        background: var(--color-backdrop-solid);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       }
 
       :host-context(.dark-theme) .header-backdrop {
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(18, 18, 18, 0.7);
       }
 
       :host-context(.dark-theme) .site-header.scrolled .header-backdrop {
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(18, 18, 18, 0.9);
       }
 
       nav {
@@ -91,6 +79,11 @@ import { RouterLink, RouterModule } from '@angular/router';
         color: var(--color-text);
         font-family: 'Fira Code', monospace;
         transition: color 0.3s ease;
+        cursor: pointer;
+        
+        &:hover {
+          color: var(--color-primary);
+        }
       }
 
       .nav-links {
@@ -109,6 +102,11 @@ import { RouterLink, RouterModule } from '@angular/router';
         transition: all 0.2s ease;
         position: relative;
         padding: 0.5rem 0;
+        opacity: 0.8;
+        
+        &:hover {
+          opacity: 1;
+        }
       }
 
       .nav-links a::after {
@@ -118,13 +116,26 @@ import { RouterLink, RouterModule } from '@angular/router';
         height: 2px;
         bottom: 0;
         left: 50%;
-        background-color: var(--color-accent);
+        background-color: var(--color-primary);
         transition: all 0.3s ease;
         transform: translateX(-50%);
+        opacity: 0;
       }
 
       .nav-links a:hover::after {
         width: 100%;
+        opacity: 1;
+      }
+
+      .nav-links a.active {
+        color: var(--color-primary);
+        font-weight: 600;
+        opacity: 1;
+      }
+
+      .nav-links a.active::after {
+        width: 100%;
+        opacity: 1;
       }
 
       .theme-toggle {

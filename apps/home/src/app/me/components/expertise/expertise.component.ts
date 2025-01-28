@@ -23,8 +23,8 @@ export class ExpertiseComponent implements AfterViewInit {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // Stop observing once visible
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
         }
       });
     }, options);

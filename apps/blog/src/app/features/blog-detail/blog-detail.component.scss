@@ -1,0 +1,86 @@
+.blog-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.blog-header {
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .date {
+    color: var(--color-text-light);
+  }
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 400px; // Fixed height for feature image
+  margin-bottom: 2rem;
+  background: var(--color-background-mute);
+  border-radius: 12px;
+  overflow: hidden;
+  
+  &.loading {
+    animation: shimmer 1.5s infinite;
+    background: linear-gradient(
+      90deg,
+      var(--color-background-mute) 0%,
+      var(--color-background-soft) 50%,
+      var(--color-background-mute) 100%
+    );
+    background-size: 200% 100%;
+  }
+}
+
+.blog-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+// Skeleton loading states
+.skeleton-content {
+  .skeleton-text {
+    height: 1rem;
+    background: var(--color-background-mute);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    animation: shimmer 1.5s infinite;
+    background: linear-gradient(
+      90deg,
+      var(--color-background-mute) 0%,
+      var(--color-background-soft) 50%,
+      var(--color-background-mute) 100%
+    );
+    background-size: 200% 100%;
+    
+    &:nth-child(even) {
+      width: 90%;
+    }
+    
+    &:nth-child(odd) {
+      width: 85%;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

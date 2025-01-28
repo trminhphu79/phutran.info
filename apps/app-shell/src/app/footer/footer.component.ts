@@ -38,59 +38,66 @@ import { Component } from '@angular/core';
       </div>
     </footer>
   `,
-  styles: [
-    `
+  styles: [`
+    :host {
+      display: block;
+      --footer-height: 120px; /* Export this as a CSS variable */
+    }
+
+    footer {
+      background: var(--color-accent);
+      color: var(--color-surface);
+      padding: 2rem 0;
+      margin-top: auto;
+      height: var(--footer-height);
+      position: relative;
+      width: 100%;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-icon {
+      color: #fff;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        opacity: 0.7;
+        transform: translateY(-2px);
+      }
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
       footer {
-        background: var(--color-accent);
-        color: var(--color-surface);
-        padding: 2rem 0;
-        margin-top: 4rem;
+        padding: 1.5rem 0;
       }
 
       .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        text-align: center;
+        padding: 0 1rem;
       }
-
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .social-icon {
-        color: #fff;
-        transition: opacity 0.2s;
-      }
-
-      .social-icon:hover {
-        opacity: 0.7;
-      }
-
-      .icon {
-        width: 24px;
-        height: 24px;
-      }
-
-      .copyright {
-        font-size: 0.9rem;
-        opacity: 0.8;
-      }
-
-      @media (max-width: 768px) {
-        footer {
-          padding: 1.5rem 0;
-        }
-
-        .footer-content {
-          padding: 0 1rem;
-        }
-      }
-    `,
-  ],
+    }
+  `],
 })
 export class FooterComponent {
   currentYear = new Date().getFullYear();
