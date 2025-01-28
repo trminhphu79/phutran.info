@@ -1,10 +1,16 @@
-import { Directive, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnDestroy,
+  afterNextRender,
+} from '@angular/core';
 
 @Directive({
   selector: '[tmpTypingAnimation]',
   standalone: true,
 })
-export class TypingAnimationDirective implements OnInit, OnDestroy {
+export class TypingAnimationDirective implements OnDestroy {
   @Input() typingSpeed = 50;
   @Input() startDelay = 1000;
   @Input() showCursor = true;
@@ -19,10 +25,10 @@ export class TypingAnimationDirective implements OnInit, OnDestroy {
   private container!: HTMLSpanElement;
   private textElement!: HTMLSpanElement;
 
-  constructor(private el: ElementRef) {}
-
-  ngOnInit() {
-    this.setupAnimation();
+  constructor(private el: ElementRef) {
+    afterNextRender(() => {
+      this.setupAnimation();
+    });
   }
 
   ngOnDestroy() {
@@ -33,13 +39,13 @@ export class TypingAnimationDirective implements OnInit, OnDestroy {
   private setupAnimation() {
     // Store original text
     this.text = this.el.nativeElement.innerHTML.trim();
-    
+
     // Create container for text and cursor
     this.container = document.createElement('span');
     this.container.style.display = 'inline-block';
     this.container.style.position = 'relative';
     this.container.style.caretColor = 'transparent'; // Hide the first cursor
-    
+
     // Create text element
     this.textElement = document.createElement('span');
     this.textElement.style.caretColor = 'transparent'; // Hide the second cursor

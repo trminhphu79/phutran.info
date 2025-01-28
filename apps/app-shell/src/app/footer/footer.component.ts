@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'tmp-footer',
   standalone: true,
   template: `
     <footer>
@@ -33,7 +33,7 @@ import { Component } from '@angular/core';
           </a>
         </div>
         <div class="copyright">
-          © {{currentYear}} Michael Tran. All rights reserved.
+          © {{currentYear}} Phu Minh Tran. All rights reserved.
         </div>
       </div>
     </footer>

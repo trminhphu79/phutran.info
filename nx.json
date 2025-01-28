@@ -16,6 +16,9 @@
   },
   "nxCloudId": "6796346bd4f9b972b4b4d2a2",
   "targetDefaults": {
+    "@nx/angular:application": {
+      "dependsOn": ["^build"]
+    },
     "build": {
       "cache": false
     },
@@ -67,6 +70,9 @@
           "env": "NX_MF_DEV_REMOTES"
         }
       ]
+    },
+    "server": {
+      "cache": true
     }
   },
   "generators": {

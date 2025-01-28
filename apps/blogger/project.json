@@ -1,31 +1,31 @@
 {
-  "name": "admin",
+  "name": "blogger",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "apps/admin/src",
+  "prefix": "tmp",
+  "sourceRoot": "apps/blogger/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/admin/browser",
-        "index": "apps/admin/src/index.html",
-        "main": "apps/admin/src/main.ts",
+        "outputPath": "dist/apps/blogger/browser",
+        "index": "apps/blogger/src/index.html",
+        "main": "apps/blogger/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/admin/tsconfig.app.json",
+        "tsConfig": "apps/blogger/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/admin/public"
+            "input": "apps/blogger/public"
           }
         ],
-        "styles": ["apps/admin/src/styles.scss"],
+        "styles": ["apps/blogger/src/styles.scss"],
         "scripts": [],
         "customWebpackConfig": {
-          "path": "apps/admin/webpack.config.ts"
+          "path": "apps/blogger/webpack.config.ts"
         }
       },
       "configurations": {
@@ -44,7 +44,7 @@
           ],
           "outputHashing": "all",
           "customWebpackConfig": {
-            "path": "apps/admin/webpack.prod.config.ts"
+            "path": "apps/blogger/webpack.prod.config.ts"
           }
         },
         "development": {
@@ -61,15 +61,15 @@
     "serve": {
       "executor": "@nx/angular:dev-server",
       "options": {
-        "port": 4207,
-        "publicHost": "http://localhost:4207"
+        "port": 4206,
+        "publicHost": "http://localhost:4206"
       },
       "configurations": {
         "production": {
-          "buildTarget": "admin:build:production"
+          "buildTarget": "blogger:build:production"
         },
         "development": {
-          "buildTarget": "admin:build:development"
+          "buildTarget": "blogger:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "admin:build"
+        "buildTarget": "blogger:build"
       }
     },
     "lint": {
@@ -87,23 +87,23 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/admin/jest.config.ts"
+        "jestConfig": "apps/blogger/jest.config.ts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "admin:build",
-        "port": 4207,
+        "buildTarget": "blogger:build",
+        "port": 4206,
         "watch": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "admin:build:development"
+          "buildTarget": "blogger:build:development"
         },
         "production": {
-          "buildTarget": "admin:build:production"
+          "buildTarget": "blogger:build:production"
         }
       }
     },
@@ -111,12 +111,12 @@
       "dependsOn": ["build"],
       "executor": "@nx/angular:webpack-server",
       "options": {
-        "outputPath": "dist/apps/admin/server",
-        "main": "apps/admin/src/server.ts",
-        "tsConfig": "apps/admin/tsconfig.server.json",
+        "outputPath": "dist/apps/blogger/server",
+        "main": "apps/blogger/src/server.ts",
+        "tsConfig": "apps/blogger/tsconfig.server.json",
         "inlineStyleLanguage": "scss",
         "customWebpackConfig": {
-          "path": "apps/admin/webpack.server.config.ts"
+          "path": "apps/blogger/webpack.server.config.ts"
         }
       },
       "configurations": {
@@ -136,17 +136,17 @@
       "executor": "@angular-devkit/build-angular:ssr-dev-server",
       "configurations": {
         "development": {
-          "browserTarget": "admin:build:development",
-          "serverTarget": "admin:server:development"
+          "browserTarget": "blogger:build:development",
+          "serverTarget": "blogger:server:development"
         },
         "production": {
-          "browserTarget": "admin:build:production",
-          "serverTarget": "admin:server:production"
+          "browserTarget": "blogger:build:production",
+          "serverTarget": "blogger:server:production"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4207
+        "port": 4206
       }
     },
     "prerender": {
@@ -156,12 +156,12 @@
       },
       "configurations": {
         "development": {
-          "browserTarget": "admin:build:development",
-          "serverTarget": "admin:server:development"
+          "browserTarget": "blogger:build:development",
+          "serverTarget": "blogger:server:development"
         },
         "production": {
-          "browserTarget": "admin:build:production",
-          "serverTarget": "admin:server:production"
+          "browserTarget": "blogger:build:production",
+          "serverTarget": "blogger:server:production"
         }
       },
       "defaultConfiguration": "production"
@@ -170,7 +170,7 @@
       "dependsOn": ["build", "server"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "PORT=4207 node dist/apps/admin/server/main.js"
+        "command": "PORT=4206 node dist/apps/blogger/server/main.js"
       }
     }
   }

@@ -1,75 +1,26 @@
-import {
-  ModuleFederationConfig,
-  SharedFunction,
-  SharedLibraryConfig,
-} from '@nx/module-federation';
-
-const shared: Record<string, SharedLibraryConfig> = Object.freeze({
-  '@angular/core': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  '@angular/common': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  '@angular/router': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  '@angular/platform-browser-dynamic': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  '@angular/platform-browser': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  '@angular/forms': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  'zone.js': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-  rxjs: {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-});
-
-const getShared = (): SharedFunction => {
-  return (libraryName: string, sharedConfig: SharedLibraryConfig) => {
-    if (shared[libraryName]) {
-      return {
-        ...sharedConfig,
-        ...shared[libraryName],
-      };
-    }
-    return false;
-  };
-};
-
-// webpack.config.js
-const DOMAIN = process.env.DOMAIN || 'http://phutran.info.vn';
+import { ModuleFederationConfig } from '@nx/module-federation';
 
 const config: ModuleFederationConfig = {
   name: 'app-shell',
+  /**
+   * To use a remote that does not exist in your current Nx Workspace
+   * You can use the tuple-syntax to define your remote
+   *
+   * remotes: [['my-external-remote', 'https://nx-angular-remote.netlify.app']]
+   *
+   * You _may_ need to add a `remotes.d.ts` file to your `src/` folder declaring the external remote for tsc, with the
+   * following content:
+   *
+   * declare module 'my-external-remote';
+   *
+   */
   remotes: [
-    ['home', `${DOMAIN}/home/remoteEntry.mjs`],
-    ['blog', `${DOMAIN}/blog/remoteEntry.mjs`],
-    ['admin', `${DOMAIN}/admin/remoteEntry.mjs`],
+    ['blogger', 'https://phutran.info.vn/blog/remoteEntry.mjs'],
+    ['admin', 'https://phutran.info.vn/admin/remoteEntry.mjs'],
   ],
-  // shared: getShared(),
 };
 
+/**
+ * Nx requires a default export of the config to allow correct resolution of the module federation graph.
+ **/
 export default config;

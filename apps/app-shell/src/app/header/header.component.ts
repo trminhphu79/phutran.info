@@ -1,8 +1,8 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, afterRender } from '@angular/core';
 import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
+  selector: 'tmp-header',
   standalone: true,
   imports: [RouterModule, RouterLink, RouterLinkActive],
   template: `
@@ -12,14 +12,20 @@ import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
         <div class="logo-text" routerLink="/">&lt;TMP /&gt;</div>
         <ul class="nav-links">
           <li>
-            <a routerLink="/" 
-               routerLinkActive="active" 
-               [routerLinkActiveOptions]="{exact: true}">Me</a>
+            <a
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Me</a
+            >
           </li>
           <li>
-            <a routerLink="/blog" 
-               routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}">Blog</a>
+            <a
+              routerLink="/blog"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Blog</a
+            >
           </li>
         </ul>
       </nav>
@@ -80,7 +86,7 @@ import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
         font-family: 'Fira Code', monospace;
         transition: color 0.3s ease;
         cursor: pointer;
-        
+
         &:hover {
           color: var(--color-primary);
         }
@@ -103,7 +109,7 @@ import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
         position: relative;
         padding: 0.5rem 0;
         opacity: 0.8;
-        
+
         &:hover {
           opacity: 1;
         }
@@ -186,7 +192,7 @@ import { RouterLink, RouterModule, RouterLinkActive } from '@angular/router';
     `,
   ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   isScrolled = false;
   isDarkTheme = false;
 
@@ -195,13 +201,14 @@ export class HeaderComponent implements OnInit {
     this.isScrolled = window.scrollY > 20;
   }
 
-  ngOnInit() {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      this.isDarkTheme = true;
-      document.body.classList.add('dark-theme');
-    }
+  constructor() {
+    afterRender(() => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        this.isDarkTheme = true;
+        document.body.classList.add('dark-theme');
+      }
+    });
   }
 
   toggleTheme() {

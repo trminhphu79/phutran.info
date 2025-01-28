@@ -2,7 +2,7 @@
   "name": "app-shell",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "tmp",
   "sourceRoot": "apps/app-shell/src",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/app-shell",
+        "outputPath": "dist/apps/app-shell/browser",
         "index": "apps/app-shell/src/index.html",
         "main": "apps/app-shell/src/main.ts",
         "polyfills": ["zone.js"],
@@ -38,8 +38,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "40kb",
-              "maximumError": "50kb"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all",
@@ -66,8 +66,7 @@
       },
       "configurations": {
         "production": {
-          "buildTarget": "app-shell:build:production",
-          "skipNxCache": true
+          "buildTarget": "app-shell:build:production"
         },
         "development": {
           "buildTarget": "app-shell:build:development"
@@ -98,6 +97,62 @@
         "port": 4200,
         "spa": true
       }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@nx/angular:webpack-server",
+      "options": {
+        "outputPath": "dist/apps/app-shell/server",
+        "main": "apps/app-shell/src/server.ts",
+        "tsConfig": "apps/app-shell/tsconfig.server.json",
+        "inlineStyleLanguage": "scss",
+        "customWebpackConfig": {
+          "path": "apps/app-shell/webpack.server.config.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@nx/angular:module-federation-dev-ssr",
+      "configurations": {
+        "development": {
+          "browserTarget": "app-shell:build:development",
+          "serverTarget": "app-shell:server:development"
+        },
+        "production": {
+          "browserTarget": "app-shell:build:production",
+          "serverTarget": "app-shell:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@angular-devkit/build-angular:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "app-shell:build:development",
+          "serverTarget": "app-shell:server:development"
+        },
+        "production": {
+          "browserTarget": "app-shell:build:production",
+          "serverTarget": "app-shell:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
     }
   }
 }

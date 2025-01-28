@@ -5,10 +5,9 @@ import { HeaderComponent } from './header/header.component';
 
 @Component({
   imports: [RouterModule, HeaderComponent, FooterComponent],
-  selector: 'app-root',
+  selector: 'tmp-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  standalone: true
 })
 export class AppComponent {
   title = 'app-shell';
