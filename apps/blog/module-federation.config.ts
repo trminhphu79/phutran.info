@@ -1,9 +1,9 @@
 import { ModuleFederationConfig } from '@nx/module-federation';
 
 const config: ModuleFederationConfig = {
-  name: 'blogger',
+  name: 'blog',
   exposes: {
-    './Routes': 'apps/blogger/src/app/remote-entry/entry.routes.ts',
+    './Routes': 'apps/blog/src/app/remote-entry/entry.routes.ts',
   },
 };
 

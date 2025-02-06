@@ -1,8 +1,8 @@
 export default {
-  displayName: 'blogger',
+  displayName: 'editor',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/blogger',
+  coverageDirectory: '../../coverage/libs/editor',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

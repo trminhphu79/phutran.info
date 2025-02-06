@@ -15,8 +15,8 @@ const config: ModuleFederationConfig = {
    *
    */
   remotes: [
-    ['blogger', 'https://phutran.info.vn/blog/remoteEntry.mjs'],
-    ['admin', 'https://phutran.info.vn/admin/remoteEntry.mjs'],
+    'admin',
+    'blog',
   ],
 };
 

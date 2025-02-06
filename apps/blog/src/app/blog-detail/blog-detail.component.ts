@@ -1,25 +1,19 @@
 import { EditorComponent, OutputData } from '@tmp/editor';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
+  selector: 'tmp-blog-detail',
+  standalone: true,
   imports: [CommonModule, EditorComponent],
-  selector: 'app-admin-entry',
-  template: ` <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <tmp-editor
-      [data]="initialData"
-      [mode]="'edit'"
-      (dataChange)="onEditorChange($event)"
-    ></tmp-editor>`,
+  template: `
+    <div style="width: 100%; height: 100%;margin-top: 80px">
+      <tmp-editor [data]="initialData"></tmp-editor>
+    </div>
+  `,
+  styleUrls: ['./blog-detail.component.scss'],
 })
-export class RemoteEntryComponent {
+export class BlogDetailComponent {
   initialData: OutputData = {
     time: 1738854849365,
     blocks: [
