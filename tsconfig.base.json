@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tmp/type": ["libs/type/src/index.ts"],
       "@tmp/directives": ["libs/directives/src/index.ts"],
       "@tmp/editor": ["libs/editor/src/index.ts"],
       "@tmp/guards": ["libs/guards/src/index.ts"],

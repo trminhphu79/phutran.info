@@ -2,16 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  content: string;
-  createdAt: Date;
-  imageLoaded?: boolean;
-}
+import { Blog } from '@tmp/type';
+import { BlogService } from '@tmp/services/blog';
+
 @Component({
   selector: 'tmp-blog-list',
   standalone: true,
@@ -35,34 +28,32 @@ export interface BlogPost {
           <article
             *ngFor="let post of filteredPosts"
             class="blog-card"
-            [routerLink]="['/blog', post.slug]"
+            [routerLink]="['/blog', post.id]"
           >
-            <div class="thumbnail-container" [class.loading]="!post.imageLoaded">
-              <img
-                [src]="post.thumbnail"
-                [alt]="post.title"
-                class="blog-thumbnail"
-                [class.loaded]="post.imageLoaded"
-                (load)="onImageLoad(post)"
-                loading="lazy"
-              />
-            </div>
             <div class="blog-content">
-              <ng-container *ngIf="post.imageLoaded; else skeletonContent">
-                <h2>{{ post.title }}</h2>
-                <p class="description">{{ post.description }}</p>
+              <h2>{{ post.title }}</h2>
+              <p class="description">{{ post.content | slice : 0 : 150 }}...</p>
+              <div class="meta-info">
                 <span class="date">{{
                   post.createdAt | date : 'mediumDate'
                 }}</span>
-              </ng-container>
-              <ng-template #skeletonContent>
-                <div class="skeleton-text title"></div>
-                <div class="skeleton-text description"></div>
-                <div class="skeleton-text description"></div>
-              </ng-template>
+                <span class="author" *ngIf="post.author"
+                  >by {{ post.author }}</span
+                >
+              </div>
+              <div class="tags">
+                <span class="tag" *ngFor="let tag of post.tag">{{ tag }}</span>
+              </div>
             </div>
           </article>
         </ng-container>
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more" *ngIf="hasMorePosts">
+        <button (click)="loadMore()" [disabled]="loading">
+          {{ loading ? 'Loading...' : 'Load More' }}
+        </button>
       </div>
 
       <!-- Empty State -->
@@ -78,79 +69,44 @@ export interface BlogPost {
   styleUrls: ['./blog-list.component.scss'],
 })
 export class BlogListComponent implements OnInit {
-  posts: BlogPost[] = []; // Will be populated from a service
-  filteredPosts: BlogPost[] = [];
-  searchTerm!: string;
+  posts: Blog[] = [];
+  filteredPosts: Blog[] = [];
+  searchTerm = '';
+  loading = false;
+  hasMorePosts = true;
+
+  // Pagination params
+  private offset = 0;
+  private limit = 10;
+
+  constructor(private blogService: BlogService) {}
 
   ngOnInit() {
-    // Temporary mock data
-    this.posts = [
-      {
-        id: '1',
-        slug: 'getting-started-with-angular',
-        title: 'Getting Started with Angular',
-        description:
-          'Learn the basics of Angular and how to create your first application. This guide covers everything you need to know.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png',
-        content: '',
-        createdAt: new Date(),
-      },
-      {
-        id: '2',
-        slug: 'angular-change-detection',
-        title: 'Angular Change Detection Explained',
-        description:
-          'Learn the basics of Angular and how to create your first application. This guide covers everything you need to know.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png',
-        content: '',
-        createdAt: new Date(),
-      },
-      // angular router
-      {
-        id: '3',
-        slug: 'angular-router',
-        title: 'Angular Router Explained',
-        description: 'Learn the basics of Angular Router and how to use it.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png',
-        content: '',
-        createdAt: new Date(),
-      },
-      //javascript closure
-      {
-        id: '4',
-        slug: 'javascript-closure',
-        title: 'JavaScript Closure Explained',
-        description:
-          'Learn the basics of JavaScript Closure and how to use it.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png',
-        content: '',
-        createdAt: new Date(),
-      },
+    this.loadPosts();
+  }
 
-      //javascript event loop
-      {
-        id: '5',
-        slug: 'javascript-event-loop',
-        title: 'JavaScript Event Loop Explained',
-        description: 'Learn the basics of JavaScript Event Loop and how to use it.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png',
-        content: '',
-        createdAt: new Date(),
-      },
+  private loadPosts() {
+    if (this.loading) return;
 
-      //javascript async/await
-      {
-        id: '6',
-        slug: 'javascript-async-await',
-        title: 'JavaScript Async/Await Explained',
-        description: 'Learn the basics of JavaScript Async/Await and how to use it.',
-        thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png',
-        content: '',
-        createdAt: new Date(),
+    this.loading = true;
+    this.blogService.getBlogs().subscribe({
+      next: (response) => {
+        if (response.data) {
+          const newPosts = response.data;
+          this.posts =
+            this.offset === 0 ? newPosts : [...this.posts, ...newPosts];
+          this.filteredPosts = this.posts;
+          this.hasMorePosts = newPosts.length === this.limit;
+          this.offset += this.limit;
+        }
       },
-      // Add more mock posts...
-    ];
-    this.filteredPosts = this.posts;
+      error: (error) => {
+        console.error('Error loading blogs:', error);
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
   onSearch() {
@@ -163,11 +119,12 @@ export class BlogListComponent implements OnInit {
     this.filteredPosts = this.posts.filter(
       (post) =>
         post.title.toLowerCase().includes(searchTermLower) ||
-        post.description.toLowerCase().includes(searchTermLower)
+        post.content.toLowerCase().includes(searchTermLower) ||
+        post.tag.some((tag) => tag.toLowerCase().includes(searchTermLower))
     );
   }
 
-  onImageLoad(post: BlogPost) {
-    post.imageLoaded = true;
+  loadMore() {
+    this.loadPosts();
   }
 }

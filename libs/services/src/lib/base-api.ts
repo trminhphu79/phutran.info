@@ -11,6 +11,7 @@ export type BaseResponse<T> = {
   providedIn: 'root',
 })
 export class BaseApi {
+  // protected baseUrl = 'https://api.phutran.info.vn/';
   protected baseUrl = 'http://localhost:3000';
   protected http: HttpClient = inject(HttpClient);
 
