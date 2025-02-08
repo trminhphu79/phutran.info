@@ -14,9 +14,10 @@ const config: ModuleFederationConfig = {
    * declare module 'my-external-remote';
    *
    */
+  //https://phutran.info.vn/blog/remoteEntry.mjs
   remotes: [
-    'admin',
-    'blog',
+    ['admin', 'https://phutran.info.vn/admin/remoteEntry.mjs'],
+    ['blog', 'https://phutran.info.vn/blog/remoteEntry.mjs'],
   ],
 };
 

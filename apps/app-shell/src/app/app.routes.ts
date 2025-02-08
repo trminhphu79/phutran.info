@@ -4,7 +4,7 @@ import { MeComponent } from './me/me.component';
 export const appRoutes: Route[] = [
   {
     path: 'blog',
-    loadChildren: () => import('blog/Routes').then((m) => m!.remoteRoutes),
+    loadChildren: () => import('apps/blogger/src/app/remote-entry/entry.routes').then((m) => m!.remoteRoutes),
   },
   {
     path: 'admin',

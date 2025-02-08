@@ -3,29 +3,29 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "tmp",
-  "sourceRoot": "apps/blog/src",
+  "sourceRoot": "apps/blogger/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/blog",
-        "index": "apps/blog/src/index.html",
-        "main": "apps/blog/src/main.ts",
+        "outputPath": "dist/apps/blogger",
+        "index": "apps/blogger/src/index.html",
+        "main": "apps/blogger/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/blog/tsconfig.app.json",
+        "tsConfig": "apps/blogger/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/blog/public"
+            "input": "apps/blogger/public"
           }
         ],
-        "styles": ["apps/blog/src/styles.scss"],
+        "styles": ["apps/blogger/src/styles.scss"],
         "scripts": [],
         "customWebpackConfig": {
-          "path": "apps/blog/webpack.config.ts"
+          "path": "apps/blogger/webpack.config.ts"
         }
       },
       "configurations": {
@@ -44,7 +44,7 @@
           ],
           "outputHashing": "all",
           "customWebpackConfig": {
-            "path": "apps/blog/webpack.prod.config.ts"
+            "path": "apps/blogger/webpack.prod.config.ts"
           }
         },
         "development": {
